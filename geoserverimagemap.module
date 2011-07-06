@@ -1,0 +1,43 @@
+<?php
+
+/**
+ * @defgroup mapbox MapBox: Provides MapBox layers to OpenLayers
+ * This module has no UI; it only implements hooks in OpenLayers 2.x
+ * and Gmap
+ */
+
+/**
+ * Implementation of hook_ctools_plugin_api().
+ */
+function geoserverimagemap_ctools_plugin_api($module, $api) {
+  if ($module == "openlayers") {
+    switch ($api) {
+      case 'openlayers_layers':
+        return array('version' => 1);
+      case 'openlayers_styles':
+        return array('version' => 1);
+    }
+  }
+}
+
+
+
+
+/**
+ * Implementation of openlayers_layer_type
+ */
+function geoserverimagemap_openlayers_layer_types() {
+  return array(
+    'openlayers_layer_type_geoserverimagemap' => array(
+      'title' => t('Geoserver image map'),
+      'description' => t('<a href="!url">GeoServer Image Map</a>',
+        array('!url' => 'http://xyz')),
+       'layer_type' => array(
+        'path' => drupal_get_path('module', 'geoserverimagemap') . '/includes/layer_types',
+        'file' => 'geoserverimagemap.inc',
+        'class' => 'openlayers_layer_type_geoserverimagemap',
+        'parent' => 'openlayers_layer_type',
+      ),
+    ),
+  );
+}
